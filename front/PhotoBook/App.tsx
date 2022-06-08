@@ -8,7 +8,7 @@
  * @format
  */
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -29,6 +29,7 @@ import {
 
 const Section: React.FC<{
   title: string;
+  children: ReactNode;
 }> = ({children, title}) => {
   const isDarkMode = useColorScheme() === 'dark';
   return (
@@ -73,7 +74,11 @@ const App = () => {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
+          <Section title="La Banque Postale New app">
+            Wawww
+          </Section>
           <Section title="Step One">
+            La Banque Postale New app
             Edit <Text style={styles.highlight}>App.tsx</Text> to change this
             screen and then come back to see your edits.
           </Section>
