@@ -8,35 +8,27 @@
  * @format
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {SafeAreaView, StatusBar, StyleSheet, Text, View} from 'react-native';
+import HomeScreen from './src/HomeScreen';
 import SplashScreen from './src/splashScreen';
 
 const App = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  console.log('setIsLoading:', setIsLoading);
+  console.log('isLoading:', isLoading);
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }, [])
   return (
     <SafeAreaView>
       <StatusBar barStyle="light-content" />
-      <SplashScreen />
+      {isLoading ? <SplashScreen /> : <HomeScreen />}
     </SafeAreaView>
   );
 };
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+const styles = StyleSheet.create({});
 
 export default App;
