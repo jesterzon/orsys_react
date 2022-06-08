@@ -29,7 +29,7 @@ const App = () => {
   }, []);
   return (
     <SafeAreaProvider>
-      <SafeAreaView style= {styles.safeAreaView}>
+      <SafeAreaView style={styles.safeAreaView}>
         <StatusBar barStyle="light-content" />
         {isLoading ? (
           <SplashScreen />
@@ -46,8 +46,8 @@ const App = () => {
 };
 const styles = StyleSheet.create({
   safeAreaView: {
-    flex:1
-  }
+    flex: 1,
+  },
 });
 
 export default App;
