@@ -31,7 +31,6 @@ const App = () => {
 };
 const ReduxApp = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const isConnected = false;
   console.log('setIsLoading:', setIsLoading);
   console.log('isLoading:', isLoading);
   useEffect(() => {
@@ -47,7 +46,7 @@ const ReduxApp = () => {
           <SplashScreen />
         ) : (
           <NavigationContainer>
-            <Stack.Navigator initialRouteName={isConnected ? 'Home' : 'Login'}>
+            <Stack.Navigator initialRouteName='Home'>
               <Stack.Screen name="Home" component={HomeScreen} />
               <Stack.Screen name="Login" component={LoginScreen} />
             </Stack.Navigator>

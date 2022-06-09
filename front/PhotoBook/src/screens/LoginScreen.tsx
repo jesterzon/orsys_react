@@ -1,23 +1,46 @@
 import {NavigatorScreenParams} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import React, { useState } from 'react';
-import {Button, StyleSheet, Text, TextInput, View} from 'react-native';
+import {applyMiddleware} from '@reduxjs/toolkit';
+import React, {useState} from 'react';
+import {
+  ActivityIndicator,
+  Button,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
+import api, {LoginForm} from '../api';
 import {RootStackParamList} from '../navigation';
-import { useAppDispatch, useAppSelector } from '../redux/hook';
-import { connect, selectAuthentication, User } from '../redux/slices/authentication.slice';
+import {useAppDispatch, useAppSelector} from '../redux/hook';
+import {
+  connect,
+  selectAuthentication,
+  User,
+} from '../redux/slices/authentication.slice';
 
 type LoginProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
 const LoginScreen = ({navigation}: LoginProps) => {
   const dispatch = useAppDispatch();
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const goToHome = () => {
-    const user : User = {
-      displayName: login
-    };
-    dispatch(connect(user));
-    navigation.navigate('Home');
+    (async () => {
+      try {
+        setIsLoading(true);
+        const loginForm: LoginForm = {login, password};
+        const user = await api.connect(loginForm);
+        navigation.navigate('Home');
+        dispatch(connect(user));
+      } catch (err) {
+        setErrorMsg('Bad login');
+      } finally {
+        setIsLoading(false);
+      }
+    })();
   };
   return (
     <View style={styles.mainContainer}>
@@ -36,8 +59,12 @@ const LoginScreen = ({navigation}: LoginProps) => {
           defaultValue={''}
           secureTextEntry={true}
         />
-        <Button title="Connect" onPress={goToHome}></Button>
-        <Text>{JSON.stringify(login)} {JSON.stringify(password)}</Text>
+        <Text style={styles.error}>{errorMsg}</Text>
+        {isLoading ? (
+          <ActivityIndicator size="large" />
+        ) : (
+          <Button title="Connect" onPress={goToHome}></Button>
+        )}
       </View>
     </View>
   );
@@ -48,7 +75,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'stretch',
     backgroundColor: 'black',
-  
+
     height: '100%',
     padding: 10,
   },
@@ -66,9 +93,15 @@ const styles = StyleSheet.create({
   },
   form: {
     alignItems: 'stretch',
-    height: 200,
+    height: 300,
     backgroundColor: 'black',
     justifyContent: 'space-between',
+  },
+  error: {
+    color: 'red',
+    fontWeight: 'bold',
+    height: 30,
+    textAlign: 'center',
   },
 });
 export default LoginScreen;
