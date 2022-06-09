@@ -36,6 +36,7 @@ const LoginScreen = ({navigation}: LoginProps) => {
         navigation.navigate('Home');
         dispatch(connect(user));
       } catch (err) {
+        console.log('err:', err);
         setErrorMsg('Bad login');
       } finally {
         setIsLoading(false);
@@ -60,11 +61,13 @@ const LoginScreen = ({navigation}: LoginProps) => {
           secureTextEntry={true}
         />
         <Text style={styles.error}>{errorMsg}</Text>
+        <View style={styles.buttonContainer}>
         {isLoading ? (
           <ActivityIndicator size="large" />
         ) : (
           <Button title="Connect" onPress={goToHome}></Button>
         )}
+        </View>
       </View>
     </View>
   );
@@ -103,5 +106,8 @@ const styles = StyleSheet.create({
     height: 30,
     textAlign: 'center',
   },
+  buttonContainer: {
+    height: 60
+  }
 });
 export default LoginScreen;
