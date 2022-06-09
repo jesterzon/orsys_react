@@ -33,8 +33,8 @@ const LoginScreen = ({navigation}: LoginProps) => {
         setIsLoading(true);
         const loginForm: LoginForm = {login, password};
         const user = await api.connect(loginForm);
-        navigation.navigate('Home');
         dispatch(connect(user));
+        navigation.navigate('Home');
       } catch (err) {
         console.log('err:', err);
         setErrorMsg('Bad login');
