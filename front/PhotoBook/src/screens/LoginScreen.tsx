@@ -1,22 +1,23 @@
 import {NavigatorScreenParams} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import React from 'react';
+import React, { useState } from 'react';
 import {Button, StyleSheet, Text, TextInput, View} from 'react-native';
 import {RootStackParamList} from '../navigation';
+import { useAppDispatch, useAppSelector } from '../redux/hook';
+import { connect, selectAuthentication, User } from '../redux/slices/authentication.slice';
 
 type LoginProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
 const LoginScreen = ({navigation}: LoginProps) => {
+  const dispatch = useAppDispatch();
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
   const goToHome = () => {
+    const user : User = {
+      displayName: login
+    };
+    dispatch(connect(user));
     navigation.navigate('Home');
-  };
-  const loginV = '';
-  const passwordV = '';
-  const onChangeLogin = () => {
-    console.log('onChangeLogin: press');
-  };
-  const onChangePassword = () => {
-    console.log('onChangePassword: press');
   };
   return (
     <View style={styles.mainContainer}>
@@ -24,18 +25,19 @@ const LoginScreen = ({navigation}: LoginProps) => {
       <View style={styles.form}>
         <TextInput
           style={styles.textinput}
-          onChangeText={onChangeLogin}
+          onChangeText={setLogin}
           placeholder="Votre Login"
           defaultValue={''}
         />
         <TextInput
           style={styles.textinput}
-          onChangeText={onChangeLogin}
+          onChangeText={setPassword}
           placeholder="Votre Password"
           defaultValue={''}
           secureTextEntry={true}
         />
         <Button title="Connect" onPress={goToHome}></Button>
+        <Text>{JSON.stringify(login)} {JSON.stringify(password)}</Text>
       </View>
     </View>
   );
