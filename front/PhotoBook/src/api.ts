@@ -1,11 +1,34 @@
+import { authFetch } from './fetch';
+import { Article } from './redux/slices/article.slice';
 import {User} from './redux/slices/authentication.slice';
 import {sleep} from './utils';
+export const domain = 'http://10.0.2.2:3000';
+export const apiUrl = `${domain}/api`;
 
 export interface LoginForm {
   login: string;
   password: string;
 }
 class Api {
+  public async addNewArticle(article: Article) {
+    const url = apiUrl + '/articles';
+    console.log('url: ', url);
+
+    const response = await authFetch(url, {
+      method: 'POST',
+      body: JSON.stringify(article),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return await response.json();
+  }
+
+  public async getArticles(): Promise<Article[]> {
+    const response = await authFetch(apiUrl + '/articles');
+    return await response.json();
+  }
+
   public async connect(loginForm: LoginForm): Promise<User> {
     await sleep(2000);
     const response = await fetch('http://10.0.2.2:3000/api/connect', {
