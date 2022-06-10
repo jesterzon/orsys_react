@@ -5,7 +5,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.Promise;
 
 import android.util.Log;
 
@@ -23,12 +23,12 @@ public class DeviceInfoModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void getUniqueId(String name, Callback callback) {
+    public void getUniqueId(String name, Promise promise) {
         Log.d("DeviceInfoModule", "name: " + name);
         if("zut".equals(name)) {
-            callback.invoke("c'est bien fait!");
+            promise.reject("34", "c'est bien fait!");
             return;
         }
-        callback.invoke(null, "titi");
+        promise.resolve("titi");
     }
 }

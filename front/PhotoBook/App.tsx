@@ -25,18 +25,19 @@ import {useAppDispatch} from './src/redux/hook';
 import DeviceInfoModule from './src/native/DeviceInfoModule';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
-const testX = (name: string) => {
-  DeviceInfoModule.getUniqueId(name, (error, resultat) => {
-    if(error) {
-      console.log(error);
-      return;
-    }
-    console.log(resultat);
-  });
-};
+const testX = async () => {
+  try {
+    const res = await DeviceInfoModule.getUniqueId('helooooo');
+    console.log(res);
+    const res1 = await DeviceInfoModule.getUniqueId('zut');
+    console.log(res1);
+  }
+  catch(err) {
+    console.log(err);
+  }
+}
 const App = () => {
-  testX('helooooo');
-  testX('zut');
+  testX();
   return (
     <Provider store={store}>
       <ReduxApp />

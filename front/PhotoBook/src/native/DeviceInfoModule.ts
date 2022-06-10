@@ -3,7 +3,7 @@ import { NativeModules } from 'react-native';
 const { DeviceInfoModule } = NativeModules;
 
 export interface DeviceInfoModuleType {
-    getUniqueId:(str: string, callback: (error: unknown, result:string) => void) => void;
+    getUniqueId:(str: string) => Promise<string>;
 };
 
 export default DeviceInfoModule as DeviceInfoModuleType;
