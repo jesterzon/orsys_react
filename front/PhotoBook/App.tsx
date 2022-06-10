@@ -22,10 +22,21 @@ import {store} from './src/redux/store';
 import api from './src/api';
 import {connect, User} from './src/redux/slices/authentication.slice';
 import {useAppDispatch} from './src/redux/hook';
+import DeviceInfoModule from './src/native/DeviceInfoModule';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
-
+const testX = (name: string) => {
+  DeviceInfoModule.getUniqueId(name, (error, resultat) => {
+    if(error) {
+      console.log(error);
+      return;
+    }
+    console.log(resultat);
+  });
+};
 const App = () => {
+  testX('helooooo');
+  testX('zut');
   return (
     <Provider store={store}>
       <ReduxApp />
