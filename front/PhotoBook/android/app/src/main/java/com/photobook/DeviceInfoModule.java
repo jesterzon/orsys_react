@@ -6,6 +6,7 @@ import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Promise;
+import android.provider.Settings.Secure;
 
 import android.util.Log;
 
@@ -13,8 +14,10 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class DeviceInfoModule extends ReactContextBaseJavaModule {
+    ReactApplicationContext context;
     DeviceInfoModule(ReactApplicationContext context) {
         super(context);
+        this.context = context;
     }
 
     @Override
@@ -29,6 +32,7 @@ public class DeviceInfoModule extends ReactContextBaseJavaModule {
             promise.reject("34", "c'est bien fait!");
             return;
         }
-        promise.resolve("titi");
+        String m_androidId = Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);
+        promise.resolve("totitititi: " + m_androidId);
     }
 }
